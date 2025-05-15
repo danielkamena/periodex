@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PERIODEX - Suivi du cycle menstruel</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #ffe4e1, #ffd6e0);
+    }
+
+    header {
+      background: #ff8fa3;
+      padding: 15px 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 3px black;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff0f5;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .bar {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 4px 0;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background: #ff8fa3;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        text-align: center;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background-image: url('https://st2.depositphotos.com/48656914/45640/v/450/depositphotos_456405906-stock-illustration-endometriosis-concept-illustration-medical-content.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 2.5em;
+      color: black;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 3px rgba(255, 0, 0, 0.795);
+    }
+
+    .hero p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+      font-weight: bold;
+    }
+
+    .hero button {
+      background: #ff4081;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .hero button:hover {
+      background: #e91e63;
+    }
+
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    #apropos p{
+        font-weight: bold;
+
+    }
+    #apropos h2{
+        text-shadow: 2px 2px 3px red;
+        font-weight: bold;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    input, button.calc {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button.calc {
+      background: #ff4081;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button.calc:hover {
+      background: #e91e63;
+    }
+
+    #resultat {
+      margin-top: 20px;
+      font-size: 1.1em;
+      color: #444;
+    }
+
+    #periodeFertile {
+      margin-top: 15px;
+      font-size: 1em;
+      color: #444;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #fff;
+      color: #555;
+      font-size: 0.9em;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">PERIODEX</div>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    <nav id="nav">
+      <a href="#home">Accueil</a>
+      <a href="#apropos">À propos</a>
+      <a href="#calcul">Calculer</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>Bienvenue sur Periodex</h1>
+    <p>Suivez facilement votre cycle menstruel et découvrez votre période fertile.</p>
+  </section>
+
+  <section id="apropos">
+    <h2>À propos</h2>
+    <p>Periodex est une plateforme conçue pour accompagner les femmes dans le suivi de leur cycle menstruel. Notre objectif est de vous fournir un outil simple, précis et agréable à utiliser pour mieux connaître votre corps.</p>
+  </section>
+
+  <section id="calcul">
+    <div class="container">
+      <h2>Calculateur de cycle</h2>
+      <label for="lastDate">Date de vos dernières règles :</label>
+      <input type="date" id="lastDate" name="lastDate">
+
+      <label for="cycleLength">Durée moyenne de votre cycle (en jours) :</label>
+      <input type="number" id="cycleLength" name="cycleLength" value="28">
+
+      <button class="calc" onclick="calculerCycle()">Calculer</button>
+
+      <p id="resultat"></p>
+      <p id="periodeFertile"></p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 PERIODEX - Bien-être et santé féminine
+  </footer>
+
+  <script>
+    function calculerCycle() {
+      const dateInput = document.getElementById("lastDate").value;
+      const cycleLength = parseInt(document.getElementById("cycleLength").value);
+      const resultat = document.getElementById("resultat");
+      const periodeFertile = document.getElementById("periodeFertile");
+
+      if (!dateInput || isNaN(cycleLength)) {
+        resultat.innerHTML = "<span style='color:red'>Veuillez remplir tous les champs.</span>";
+        periodeFertile.innerHTML = "";
+        return;
+      }
+
+      const lastDate = new Date(dateInput);
+      const nextPeriod = new Date(lastDate.getTime() + cycleLength * 86400000);
+      const ovulation = new Date(lastDate.getTime() + (cycleLength - 14) * 86400000);
+      const fertileStart = new Date(ovulation.getTime() - 4 * 86400000);
+      const fertileEnd = new Date(ovulation.getTime() + 86400000);
+
+      resultat.innerHTML =
+        `<strong>Prochaines règles :</strong> ${nextPeriod.toLocaleDateString('fr-FR')}<br>` +
+        `<strong>Ovulation approximative :</strong> ${ovulation.toLocaleDateString('fr-FR')}`;
+
+      periodeFertile.innerHTML =
+        `<strong>Période fertile estimée :</strong> du ${fertileStart.toLocaleDateString('fr-FR')} au ${fertileEnd.toLocaleDateString('fr-FR')}`;
+    }
+
+    function toggleMenu() {
+      document.getElementById("nav").classList.toggle("active");
+    }
+  </script>
+</body>
+</html>
+
+
